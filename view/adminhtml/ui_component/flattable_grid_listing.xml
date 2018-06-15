@@ -1,0 +1,221 @@
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <!--===============================================================================================================================================-->
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">flattable_grid_listing.flattable_grid_listing_data_source</item>
+            <item name="deps" xsi:type="string">flattable_grid_listing.flattable_grid_listing_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">modulename_goods_columns</item>
+
+        <item name="buttons" xsi:type="array">
+            <item name="add" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Sample Button</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">*/*/new</item>
+            </item>
+        </item>
+    </argument>
+    <!--===============================================================================================================================================-->
+
+
+    <!--===============================================================================================================================================-->
+    <dataSource name="flattable_grid_listing_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">FlatTableGridAndFormDataProvider</argument> <!-- Можно ли использовать один DataProvider для Grid и Form ?-->
+            <argument name="name" xsi:type="string">flattable_grid_listing_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">goods_id</argument>
+            <!-- Primary key -->
+            <argument name="requestFieldName" xsi:type="string">goods_id</argument>
+            <!-- URL name parameter -->
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">goods_id</item>
+                    </item>                              <!-- Primary key column name -->
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    <!--===============================================================================================================================================-->
+
+
+    <!--===============================================================================================================================================-->
+
+    <listingToolbar name="listing_top">
+
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="sticky" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+        <filters name="listing_filters"/>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filterSearch name="fulltext"/>
+
+
+
+        <!-- massaction -->
+        <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="noItemsMsg" xsi:type="string">Уведомление о том, что не выбрана ни одна строка для
+                        выполнения действия.
+                    </item>
+                </item>
+            </argument>
+
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="uigrid/index/massDelete"/> <!-- Надо свой обработчик создавать как я понимаю?-->
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Title - Удаление выбранных строк
+                            </item>
+                            <item name="message" xsi:type="string" translate="true">Message - вы действительно хотети
+                                удалить выбранные строки?
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+
+            <action name="edit"> <!-- Не редактируются записи в инлайн редакторе - пишет 404 (Forbidden)-->
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">edit</item>
+                        <item name="label" xsi:type="string" translate="true">Edit</item>
+                        <item name="callback" xsi:type="array">
+                            <item name="provider" xsi:type="string">
+                                flattable_grid_listing.flattable_grid_listing.modulename_goods_columns_editor
+                            </item>
+                            <item name="target" xsi:type="string">editSelected</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
+
+        <paging name="listing_paging"/>
+        <exportButton name="export_button"/>
+    </listingToolbar>
+    <!--===============================================================================================================================================-->
+
+
+    <!--===============================================================================================================================================-->
+    <columns name="modulename_goods_columns">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="editorConfig" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">
+                        flattable_grid_listing.flattable_grid_listing.modulename_goods_columns.ids
+                    </item>
+                    <item name="enabled" xsi:type="boolean">true</item>
+                    <item name="indexField" xsi:type="string">goods_id</item>
+                    <item name="clientConfig" xsi:type="array">
+                        <item name="saveUrl" xsi:type="url" path="*/*/inlineEdit"/>
+                        <item name="validateBeforeSave" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+
+
+                <item name="childDefaults" xsi:type="array">
+                    <item name="fieldAction" xsi:type="array">
+                        <item name="provider" xsi:type="string">
+                            flattable_grid_listing.flattable_grid_listing.modulename_goods_columns_editor
+                        </item>
+                        <item name="target" xsi:type="string">startEdit</item>
+                        <item name="params" xsi:type="array">
+                            <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+                            <item name="1" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </item>
+            </item>
+        </argument>
+
+        <!--==================================================================-->
+        <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">goods_id</item>
+                </item>
+            </argument>
+        </selectionsColumn>
+
+        <column name="goods_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Lgoods_id</item>
+                    <item name="sorting" xsi:type="string">desc</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="editor" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Lname</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="price">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Lprice</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="editor" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="count">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Lcount</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="editor" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                    <item name="label" xsi:type="string" translate="true">Lcreated_at</item>
+                    <item name="filter" xsi:type="string">dateRange</item>
+                    <item name="editor" xsi:type="string">date</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="updated_at" class="Magento\Ui\Component\Listing\Columns\Date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                    <item name="label" xsi:type="string" translate="true">Lupdated_at</item>
+                    <item name="filter" xsi:type="string">dateRange</item>
+                    <item name="editor" xsi:type="string">date</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                </item>
+            </argument>
+        </column>
+
+    </columns>
+    <!--===============================================================================================================================================-->
+
+</listing>

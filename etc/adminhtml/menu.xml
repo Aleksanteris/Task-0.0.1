@@ -2,7 +2,18 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
         <add id="VendorName_ModuleName::testmenu" title="Hi Dima" module="VendorName_ModuleName" sortOrder="51" resource="VendorName_ModuleName::testmenu" />
-        <add id="VendorName_ModuleName::testsubmenu" title="Active Link" module="VendorName_ModuleName" sortOrder="10" action="dimatask/controllerfolder/actionclassname"
+
+        <add id="VendorName_ModuleName::testsubmenu" title="Active Link" module="VendorName_ModuleName" sortOrder="1" action="dimatask/controllerfolder/actionclassname"
              resource="VendorName_ModuleName::testsubmenu" parent="VendorName_ModuleName::testmenu"/>
+
+        <add id="VendorName_ModuleName::flatcollection" title="ShowFlatCollection" module="VendorName_ModuleName" sortOrder="2" action="dimatask/controllerfolder/showflatcollection"
+             resource="VendorName_ModuleName::flatcollection" parent="VendorName_ModuleName::testmenu"/>
+
+        <add id="VendorName_ModuleName::flatgrid" title="ShowFlatGrid" module="VendorName_ModuleName" sortOrder="3" action="dimatask/flatcontroller/flatgrid"
+             resource="VendorName_ModuleName::flatgrid" parent="VendorName_ModuleName::testmenu"/>
+
+        <add id="VendorName_ModuleName::flatform" title="ShowFlatForm" module="VendorName_ModuleName" sortOrder="4" action="dimatask/flatcontroller/flatform"
+             resource="VendorName_ModuleName::flatform" parent="VendorName_ModuleName::testmenu"/>
+
     </menu>
 </config>

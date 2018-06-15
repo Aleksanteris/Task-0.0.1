@@ -168,6 +168,7 @@ class InstallSchema implements InstallSchemaInterface
             ->setComment('planet_entity');
         $setup->getConnection()->createTable($table);
 
+                     //====================BackendType - TEXT==================//
         $table = $setup->getConnection()
             ->newTable($setup->getTable('a_planet_entity_text'))
             ->addColumn(
@@ -238,6 +239,7 @@ class InstallSchema implements InstallSchemaInterface
             ->setComment('planet_entity_text');
         $setup->getConnection()->createTable($table);
 
+                        //====================BackendType - DECIMAL==================//
         $table = $setup->getConnection()
             ->newTable($setup->getTable('a_planet_entity_decimal'))
             ->addColumn(
@@ -340,7 +342,7 @@ class InstallSchema implements InstallSchemaInterface
             ->setComment('spaceship_entity');
         $setup->getConnection()->createTable($table);
 
-
+                            //====================BackendType - TEXT==================//
         $table = $setup->getConnection()
             ->newTable($setup->getTable('a_spaceship_entity_text'))
             ->addColumn(
@@ -411,6 +413,7 @@ class InstallSchema implements InstallSchemaInterface
             ->setComment('spaceship_entity_text');
         $setup->getConnection()->createTable($table);
 
+                            //====================BackendType - DECIMAL==================//
         $table = $setup->getConnection()
             ->newTable($setup->getTable('a_spaceship_entity_decimal'))
             ->addColumn(

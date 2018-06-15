@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">flattable_form.flattable_form_data_source</item>
+            <item name="deps" xsi:type="string">flattable_form.flattable_form_data_source</item>
+        </item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">flattable_form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="buttons" xsi:type="array">
+            <item name="add" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Sample Button</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="url" path="*/*/new"/> <!-- Надо свой обработчик создавать как я понимаю?-->
+            </item>
+        </item>
+    </argument>
+    <!--===============================================================================================================================================-->
+
+
+
+    <!--===============================================================================================================================================-->
+    <dataSource name="flattable_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">FlatTableGridAndFormDataProvider</argument> <!-- Можно ли использовать один DataProvider для Grid и Form ?-->
+            <argument name="name" xsi:type="string">flattable_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">goods_id</argument>
+            <argument name="requestFieldName" xsi:type="string">goods_id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <!--===============================================================================================================================================-->
+
+
+
+    <!--===============================================================================================================================================-->
+    <fieldset name="general">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">FlatTable Form</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+            </item>
+        </argument>
+
+        <field name="name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">1</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" xsi:type="string" translate="true">Lname</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="price">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">2</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" xsi:type="string" translate="true">Lprice</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="count">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">3</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" xsi:type="string" translate="true">Lcount</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <!--===============================================================================================================================================-->
+</form>
+
+
+
+
+
+
+
+
