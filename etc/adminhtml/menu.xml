@@ -14,6 +14,8 @@
 
         <add id="VendorName_ModuleName::flatform" title="ShowFlatForm" module="VendorName_ModuleName" sortOrder="4" action="dimatask/flatcontroller/flatform"
              resource="VendorName_ModuleName::flatform" parent="VendorName_ModuleName::testmenu"/>
-
+        <!--========================================================================================================================================================================-->
+        <add id="VendorName_ModuleName::eavcollection" title="ShowEavCollection" module="VendorName_ModuleName" sortOrder="5" action="dimatask/eavcontroller/showeavcollection"
+             resource="VendorName_ModuleName::eavcollection" parent="VendorName_ModuleName::testmenu"/>
     </menu>
 </config>

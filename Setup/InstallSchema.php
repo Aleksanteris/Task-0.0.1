@@ -8,20 +8,25 @@ use Magento\Framework\Setup\SchemaSetupInterface;
 class InstallSchema implements InstallSchemaInterface
 {
     /**
-     * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * Installs DB schema for a module
+     *
+     * @param SchemaSetupInterface $setup
+     * @param ModuleContextInterface $context
+     * @return void
+     *
      * @throws \Zend_Db_Exception
      */
-
     public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
-        $setup->startSetup();
+        $installer = $setup;
 
-        // Префикс 'a' в названии всех таблиц(flat and EAV) используется для первоочередного и последовательного их отображения в "Workbench".
+        $installer->startSetup();
 
-        //====================FLAT_SIMPLE_TABLE===============================================================
-        $table = $setup->getConnection()
-            ->newTable($setup->getTable('a_flat_table'))
+        /**
+         * Create table 'a_flat_table'
+         */
+        $table = $installer->getConnection()
+            ->newTable($installer->getTable('a_flat_table'))
             ->addColumn(
                 'goods_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -62,17 +67,16 @@ class InstallSchema implements InstallSchemaInterface
                 \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
                 null,
                 ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT_UPDATE],
-                'Updated At')
+                'Updated At'
+            )
             ->setComment('flat_table');
-        $setup->getConnection()->createTable($table);
+        $installer->getConnection()->createTable($table);
 
-
-
-
-
-        //====================EAV_ENTITY_TYPE===============================================================
-        $table = $setup->getConnection()
-            ->newTable($setup->getTable('a_eav_entity_type'))
+        /**
+         * Create table 'a_eav_entity_type'
+         */
+        $table = $installer->getConnection()
+            ->newTable($installer->getTable('a_eav_entity_type'))
             ->addColumn(
                 'entity_type_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -88,13 +92,13 @@ class InstallSchema implements InstallSchemaInterface
                 'entity_type_code'
             )
             ->setComment('eav_entity_type');
-        $setup->getConnection()->createTable($table);
+        $installer->getConnection()->createTable($table);
 
-
-
-//====================EAV_ATTRIBUTE===============================================================
-        $table = $setup->getConnection()
-            ->newTable($setup->getTable('a_eav_attribute'))
+        /**
+         * Create table 'a_eav_attribute'
+         */
+        $table = $installer->getConnection()
+            ->newTable($installer->getTable('a_eav_attribute'))
             ->addColumn(
                 'attribute_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -124,23 +128,25 @@ class InstallSchema implements InstallSchemaInterface
                 'backend_type'
             )
             ->addForeignKey(
-                $setup->getFkName('a_eav_attribute',
+                $installer->getFkName(
+                    'a_eav_attribute',
                     'entity_type_id',
                     'a_eav_entity_type',
-                    'entity_type_id'),
+                    'entity_type_id'
+                ),
                 'entity_type_id',
-                $setup->getTable('a_eav_entity_type'),
+                $installer->getTable('a_eav_entity_type'),
                 'entity_type_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->setComment('eav_attribute');
-        $setup->getConnection()->createTable($table);
+        $installer->getConnection()->createTable($table);
 
-
-
-//====================EAV_PLANET(ENTITY)===============================================================
-        $table = $setup->getConnection()
-            ->newTable($setup->getTable('a_planet_entity'))
+        /**
+         * Create table 'a_planet_entity'
+         */
+        $table = $installer->getConnection()
+            ->newTable($installer->getTable('a_planet_entity'))
             ->addColumn(
                 'entity_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -156,21 +162,25 @@ class InstallSchema implements InstallSchemaInterface
                 'entity_type_id'
             )
             ->addForeignKey(
-                $setup->getFkName('a_planet_entity',
+                $installer->getFkName(
+                    'a_planet_entity',
                     'entity_type_id',
                     'a_eav_entity_type',
-                    'entity_type_id'),
+                    'entity_type_id'
+                ),
                 'entity_type_id',
-                $setup->getTable('a_eav_entity_type'),
+                $installer->getTable('a_eav_entity_type'),
                 'entity_type_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->setComment('planet_entity');
-        $setup->getConnection()->createTable($table);
+        $installer->getConnection()->createTable($table);
 
-                     //====================BackendType - TEXT==================//
-        $table = $setup->getConnection()
-            ->newTable($setup->getTable('a_planet_entity_text'))
+        /**
+         * Create table 'a_planet_entity_text'
+         */
+        $table = $installer->getConnection()
+            ->newTable($installer->getTable('a_planet_entity_text'))
             ->addColumn(
                 'value_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -207,41 +217,49 @@ class InstallSchema implements InstallSchemaInterface
                 'value'
             )
             ->addForeignKey(
-                $setup->getFkName('a_planet_entity_text',
+                $installer->getFkName(
+                    'a_planet_entity_text',
                     'entity_type_id',
                     'a_eav_entity_type',
-                    'entity_type_id'),
+                    'entity_type_id'
+                ),
                 'entity_type_id',
-                $setup->getTable('a_eav_entity_type'),
+                $installer->getTable('a_eav_entity_type'),
                 'entity_type_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->addForeignKey(
-                $setup->getFkName('a_planet_entity_text',
+                $installer->getFkName(
+                    'a_planet_entity_text',
                     'entity_id',
                     'a_planet_entity',
-                    'entity_id'),
+                    'entity_id'
+                ),
                 'entity_id',
-                $setup->getTable('a_planet_entity'),
+                $installer->getTable('a_planet_entity'),
                 'entity_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->addForeignKey(
-                $setup->getFkName('a_planet_entity_text',
+                $installer->getFkName(
+                    'a_planet_entity_text',
                     'attribute_id',
                     'a_eav_attribute',
-                    'attribute_id'),
+                    'attribute_id'
+                ),
                 'attribute_id',
-                $setup->getTable('a_eav_attribute'),
+                $installer->getTable('a_eav_attribute'),
                 'attribute_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->setComment('planet_entity_text');
-        $setup->getConnection()->createTable($table);
+        $installer->getConnection()->createTable($table);
 
-                        //====================BackendType - DECIMAL==================//
-        $table = $setup->getConnection()
-            ->newTable($setup->getTable('a_planet_entity_decimal'))
+        /**
+         * Create table 'a_planet_entity_decimal'
+         */
+        $table = $installer->getConnection()
+            ->newTable($installer->getTable('a_planet_entity_decimal'))
             ->addColumn(
                 'value_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -278,43 +296,49 @@ class InstallSchema implements InstallSchemaInterface
                 'value'
             )
             ->addForeignKey(
-                $setup->getFkName('a_planet_entity_decimal',
+                $installer->getFkName(
+                    'a_planet_entity_decimal',
                     'entity_type_id',
                     'a_eav_entity_type',
-                    'entity_type_id'),
+                    'entity_type_id'
+                ),
                 'entity_type_id',
-                $setup->getTable('a_eav_entity_type'),
+                $installer->getTable('a_eav_entity_type'),
                 'entity_type_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->addForeignKey(
-                $setup->getFkName('a_planet_entity_decimal',
+                $installer->getFkName(
+                    'a_planet_entity_decimal',
                     'entity_id',
                     'a_planet_entity',
-                    'entity_id'),
+                    'entity_id'
+                ),
                 'entity_id',
-                $setup->getTable('a_planet_entity'),
+                $installer->getTable('a_planet_entity'),
                 'entity_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->addForeignKey(
-                $setup->getFkName('a_planet_entity_decimal',
+                $installer->getFkName(
+                    'a_planet_entity_decimal',
                     'attribute_id',
                     'a_eav_attribute',
-                    'attribute_id'),
+                    'attribute_id'
+                ),
                 'attribute_id',
-                $setup->getTable('a_eav_attribute'),
+                $installer->getTable('a_eav_attribute'),
                 'attribute_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->setComment('planet_entity_decimal');
-        $setup->getConnection()->createTable($table);
+        $installer->getConnection()->createTable($table);
 
-
-
-//====================EAV_SPACESHIP(ENTITY)===============================================================
-        $table = $setup->getConnection()
-            ->newTable($setup->getTable('a_spaceship_entity'))
+        /**
+         * Create table 'a_spaceship_entity'
+         */
+        $table = $installer->getConnection()
+            ->newTable($installer->getTable('a_spaceship_entity'))
             ->addColumn(
                 'entity_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -330,21 +354,25 @@ class InstallSchema implements InstallSchemaInterface
                 'entity_type_id'
             )
             ->addForeignKey(
-                $setup->getFkName('a_spaceship_entity',
+                $installer->getFkName(
+                    'a_spaceship_entity',
                     'entity_type_id',
                     'a_eav_entity_type',
-                    'entity_type_id'),
+                    'entity_type_id'
+                ),
                 'entity_type_id',
-                $setup->getTable('a_eav_entity_type'),
+                $installer->getTable('a_eav_entity_type'),
                 'entity_type_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->setComment('spaceship_entity');
-        $setup->getConnection()->createTable($table);
+        $installer->getConnection()->createTable($table);
 
-                            //====================BackendType - TEXT==================//
-        $table = $setup->getConnection()
-            ->newTable($setup->getTable('a_spaceship_entity_text'))
+        /**
+         * Create table 'a_spaceship_entity_text'
+         */
+        $table = $installer->getConnection()
+            ->newTable($installer->getTable('a_spaceship_entity_text'))
             ->addColumn(
                 'value_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -381,41 +409,49 @@ class InstallSchema implements InstallSchemaInterface
                 'value'
             )
             ->addForeignKey(
-                $setup->getFkName('a_spaceship_entity_text',
+                $installer->getFkName(
+                    'a_spaceship_entity_text',
                     'entity_type_id',
                     'a_eav_entity_type',
-                    'entity_type_id'),
+                    'entity_type_id'
+                ),
                 'entity_type_id',
-                $setup->getTable('a_eav_entity_type'),
+                $installer->getTable('a_eav_entity_type'),
                 'entity_type_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->addForeignKey(
-                $setup->getFkName('a_spaceship_entity_text',
+                $installer->getFkName(
+                    'a_spaceship_entity_text',
                     'entity_id',
                     'a_spaceship_entity',
-                    'entity_id'),
+                    'entity_id'
+                ),
                 'entity_id',
-                $setup->getTable('a_spaceship_entity'),
+                $installer->getTable('a_spaceship_entity'),
                 'entity_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->addForeignKey(
-                $setup->getFkName('a_spaceship_entity_text',
+                $installer->getFkName(
+                    'a_spaceship_entity_text',
                     'attribute_id',
                     'a_eav_attribute',
-                    'attribute_id'),
+                    'attribute_id'
+                ),
                 'attribute_id',
-                $setup->getTable('a_eav_attribute'),
+                $installer->getTable('a_eav_attribute'),
                 'attribute_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->setComment('spaceship_entity_text');
-        $setup->getConnection()->createTable($table);
+        $installer->getConnection()->createTable($table);
 
-                            //====================BackendType - DECIMAL==================//
-        $table = $setup->getConnection()
-            ->newTable($setup->getTable('a_spaceship_entity_decimal'))
+        /**
+         * Create table 'a_spaceship_entity_decimal'
+         */
+        $table = $installer->getConnection()
+            ->newTable($installer->getTable('a_spaceship_entity_decimal'))
             ->addColumn(
                 'value_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -452,39 +488,44 @@ class InstallSchema implements InstallSchemaInterface
                 'value'
             )
             ->addForeignKey(
-                $setup->getFkName('a_spaceship_entity_decimal',
+                $installer->getFkName(
+                    'a_spaceship_entity_decimal',
                     'entity_type_id',
                     'a_eav_entity_type',
-                    'entity_type_id'),
+                    'entity_type_id'
+                ),
                 'entity_type_id',
-                $setup->getTable('a_eav_entity_type'),
+                $installer->getTable('a_eav_entity_type'),
                 'entity_type_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->addForeignKey(
-                $setup->getFkName('a_spaceship_entity_decimal',
+                $installer->getFkName(
+                    'a_spaceship_entity_decimal',
                     'entity_id',
                     'a_spaceship_entity',
-                    'entity_id'),
+                    'entity_id'
+                ),
                 'entity_id',
-                $setup->getTable('a_spaceship_entity'),
+                $installer->getTable('a_spaceship_entity'),
                 'entity_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->addForeignKey(
-                $setup->getFkName('a_spaceship_entity_decimal',
+                $installer->getFkName(
+                    'a_spaceship_entity_decimal',
                     'attribute_id',
                     'a_eav_attribute',
-                    'attribute_id'),
+                    'attribute_id'
+                ),
                 'attribute_id',
-                $setup->getTable('a_eav_attribute'),
+                $installer->getTable('a_eav_attribute'),
                 'attribute_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )
             ->setComment('spaceship_entity_decimal');
-        $setup->getConnection()->createTable($table);
+        $installer->getConnection()->createTable($table);
 
-
-        $setup->endSetup();
+        $installer->endSetup();
     }
 }
