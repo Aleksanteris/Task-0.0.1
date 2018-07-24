@@ -1,18 +1,20 @@
 <?php
-
 namespace VendorName\ModuleName\Model\ResourceModel;
 
+use Magento\Eav\Model\Entity\AbstractEntity;
+use \Magento\Eav\Model\Entity\Context;
 
-class Eavplanet extends \Magento\Eav\Model\Entity\AbstractEntity
+class Eavplanet extends AbstractEntity
 {
-    public function __construct(
-        \Magento\Eav\Model\Entity\Context $context,
-        $data = []
-    )
-
+    /**
+     * @param Context $context
+     * @param array $data
+     * @return void
+     */
+    public function __construct(Context $context, $data = [])
     {
         parent::__construct($context, $data);
-        $this->setType('planet');
-        $this->setConnection('planet_read', 'planet_write');
+        $this->setType('a_planet');
+        $this->setConnection('a_planet', 'a_planet');
     }
 }

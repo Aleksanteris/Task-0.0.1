@@ -12,14 +12,14 @@ interface GameConsoleRepositoryInterface
     /**
      * @param \VendorName\ModuleName\Api\Data\GameConsoleInterface $gameConsole
      * @return \VendorName\ModuleName\Api\Data\GameConsoleInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
     public function save(GameConsoleInterface $gameConsole);
 
     /**
      * @param int $goodsId
      * @return \VendorName\ModuleName\Api\Data\GameConsoleInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getById($goodsId);
 
@@ -33,7 +33,7 @@ interface GameConsoleRepositoryInterface
     /**
      * @param \VendorName\ModuleName\Api\Data\GameConsoleInterface $gameConsole
      * @return bool true on success
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\CouldNotDeleteException
      */
     public function delete(GameConsoleInterface $gameConsole);
 
@@ -41,7 +41,7 @@ interface GameConsoleRepositoryInterface
      * @param int $goodsId
      * @return bool true on success
      * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\CouldNotDeleteException
      */
     public function deleteById($goodsId);
 }

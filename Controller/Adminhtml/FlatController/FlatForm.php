@@ -1,10 +1,9 @@
 <?php
 namespace VendorName\ModuleName\Controller\Adminhtml\FlatController;
 
-use \Magento\Backend\App\Action;
-use \Magento\Backend\App\Action\Context;
-use \Magento\Framework\View\Result\PageFactory;
-
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\View\Result\PageFactory;
 
 class FlatForm extends Action
 {
@@ -14,7 +13,6 @@ class FlatForm extends Action
     protected $_resultPageFactory;
 
     /**
-     * FlatForm constructor.
      * @param Context $context
      * @param PageFactory $resultPageFactory
      */
@@ -25,10 +23,11 @@ class FlatForm extends Action
     }
 
     /**
-     * @return \Magento\Framework\View\Result\Page
+     * @return \Magento\Backend\Model\View\Result\Page
      */
     public function execute()
     {
+        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->_resultPageFactory->create();
 
         return $resultPage;

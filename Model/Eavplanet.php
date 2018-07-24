@@ -1,10 +1,16 @@
 <?php
 namespace VendorName\ModuleName\Model;
 
-class Eavplanet extends \Magento\Framework\Model\AbstractModel
+use Magento\Framework\Model\AbstractModel;
+use VendorName\ModuleName\Model\ResourceModel\Eavplanet as EavplanetResource;
+
+class Eavplanet extends AbstractModel
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
-        $this->_init('VendorName\ModuleName\Model\ResourceModel\Eavplanet');
+        $this->_init(EavplanetResource::class);
     }
 }

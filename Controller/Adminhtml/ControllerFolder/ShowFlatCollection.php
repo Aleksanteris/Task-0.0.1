@@ -1,32 +1,51 @@
 <?php
 namespace VendorName\ModuleName\Controller\Adminhtml\ControllerFolder;
 
-class ShowFlatCollection extends \Magento\Backend\App\Action
-{
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\View\Result\PageFactory;
+use VendorName\ModuleName\Model\GameConsoleFactory;
 
+class ShowFlatCollection extends Action
+{
+    /**
+     * @var PageFactory
+     */
     protected $_resultPageFactory;
 
-    protected $_goodsFactory;
+    /**
+     * @var GameConsoleFactory
+     */
+    protected $_gameConsoleFactory;
 
-
+    /**
+     * @param Context $context
+     * @param PageFactory $resultPageFactory
+     * @param GameConsoleFactory $gameConsoleFactory
+     */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        \VendorName\ModuleName\Model\GoodsFactory $goodsFactory)
-
-
-    {
+        Context $context,
+        PageFactory $resultPageFactory,
+        GameConsoleFactory $gameConsoleFactory
+    ){
         parent::__construct($context);
         $this->_resultPageFactory = $resultPageFactory;
-        $this->_goodsFactory = $goodsFactory;
+        $this->_gameConsoleFactory = $gameConsoleFactory;
     }
 
+    /**
+     * @return \Magento\Backend\Model\View\Result\Page
+     */
     public function execute()
     {
+        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->_resultPageFactory->create();
         $resultPage->getConfig()->getTitle()->prepend(__('ShowFlatCollection'));
 
-        $goods = $this->_goodsFactory->create();
+        /** @var \VendorName\ModuleName\Model\GameConsole $goods */
+        $goods = $this->_gameConsoleFactory->create();
+
+        /** @var \VendorName\ModuleName\Model\ResourceModel\GameConsole\Collection $collection */
         $collection = $goods->getCollection();
         foreach($collection as $item){
             echo "<pre>";

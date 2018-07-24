@@ -1,10 +1,14 @@
 <?php
-
 namespace VendorName\ModuleName\Block\Adminhtml;
 
-class BlockClassName extends \Magento\Framework\View\Element\Template
+use \Magento\Framework\View\Element\Template;
+
+class BlockClassName extends Template
 {
-    public function getBlockResult()
+    /**
+     * @return string
+     */
+    public function showMessage()
     {
         return 'I do it ! :)';
     }

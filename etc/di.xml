@@ -7,7 +7,7 @@
                  type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
         <arguments>
             <argument name="collection" xsi:type="object" shared="false">
-                VendorName\ModuleName\Model\ResourceModel\Goods\Collection
+                VendorName\ModuleName\Model\ResourceModel\GameConsole\Collection
             </argument>
             <argument name="filterPool" xsi:type="object" shared="false">FlatTableGridAndFormFilterPool
             </argument> <!-- Define new object for filters -->
@@ -53,7 +53,7 @@
                  type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
             <argument name="mainTable" xsi:type="string">a_flat_table</argument>
-            <argument name="resourceModel" xsi:type="string">VendorName\ModuleName\Model\ResourceModel\Goods</argument>
+            <argument name="resourceModel" xsi:type="string">VendorName\ModuleName\Model\ResourceModel\GameConsole</argument>
         </arguments>
     </virtualType>
 
@@ -62,7 +62,11 @@
                  type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
             <argument name="mainTable" xsi:type="string">a_flat_table</argument>
-            <argument name="resourceModel" xsi:type="string">VendorName\ModuleName\Model\ResourceModel\Goods</argument>
+            <argument name="resourceModel" xsi:type="string">VendorName\ModuleName\Model\ResourceModel\GameConsole</argument>
         </arguments>
     </virtualType>
+
+    <preference for="VendorName\ModuleName\Api\Data\GameConsoleInterface" type="VendorName\ModuleName\Model\GameConsole" />
+    <preference for="VendorName\ModuleName\Api\GameConsoleRepositoryInterface" type="VendorName\ModuleName\Model\GameConsoleRepository" />
+    <preference for="VendorName\ModuleName\Api\Data\GameConsoleSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
 </config>
