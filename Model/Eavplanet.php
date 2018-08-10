@@ -6,6 +6,7 @@ use VendorName\ModuleName\Model\ResourceModel\Eavplanet as EavplanetResource;
 
 class Eavplanet extends AbstractModel
 {
+    const ENTITY = 'a_planet';
     /**
      * @return void
      */

@@ -47,6 +47,7 @@ class ShowEavCollection extends Action
 
         /** @var \VendorName\ModuleName\Model\ResourceModel\Eavplanet\Collection $collection */
         $collection = $planet->getCollection();
+        $collection->addAttributeToSelect('*');
         foreach($collection as $item){
             echo "<pre>";
             print_r($item->getData());

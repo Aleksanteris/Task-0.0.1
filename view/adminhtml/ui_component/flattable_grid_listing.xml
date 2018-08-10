@@ -24,7 +24,7 @@
     <!--===============================================================================================================================================-->
     <dataSource name="flattable_grid_listing_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">FlatTableGridAndFormDataProvider</argument> <!-- Можно ли использовать один DataProvider для Grid и Form ?-->
+            <argument name="class" xsi:type="string">FlatTableGridAndFormDataProvider</argument> <!--DataProvider-->
             <argument name="name" xsi:type="string">flattable_grid_listing_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">goods_id</argument>
             <!-- Primary key -->
@@ -75,7 +75,7 @@
                     <item name="config" xsi:type="array">
                         <item name="type" xsi:type="string">delete</item>
                         <item name="label" xsi:type="string" translate="true">Delete</item>
-                        <item name="url" xsi:type="url" path="uigrid/index/massDelete"/> <!-- Надо свой обработчик создавать как я понимаю?-->
+                        <item name="url" xsi:type="url" path="uigrid/index/massDelete"/> <!-- 404 -->
                         <item name="confirm" xsi:type="array">
                             <item name="title" xsi:type="string" translate="true">Title - Удаление выбранных строк
                             </item>
@@ -87,7 +87,7 @@
                 </argument>
             </action>
 
-            <action name="edit"> <!-- Не редактируются записи в инлайн редакторе - пишет 404 (Forbidden)-->
+            <action name="edit"> <!-- 404 (Forbidden)-->
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="type" xsi:type="string">edit</item>

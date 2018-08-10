@@ -28,8 +28,7 @@
             </argument>
         </arguments>
     </virtualType>
-    <!-- Не понимаю зачем нужны и что делают 2 виртуальных типа выше, я так понимаю можно обойтись и без них? Понятно что мы конфигурируем свой DataProvider,
-     непонятно зачем, ведь можно использовать стандартный? Можно ли использовать один DataProvider для Grid и Form ?-->
+    <!--  DataProvider для Grid и Form -->
 
 
     <!-- Type for flattable_grid_listing_data_source and flattable_form_data_source-->

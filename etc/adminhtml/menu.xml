@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add id="VendorName_ModuleName::testmenu" title="Hi Dima" module="VendorName_ModuleName" sortOrder="51" resource="VendorName_ModuleName::testmenu" />
+        <add id="VendorName_ModuleName::testmenu" title="My Menu" module="VendorName_ModuleName" sortOrder="51" resource="VendorName_ModuleName::testmenu" />
 
         <add id="VendorName_ModuleName::testsubmenu" title="Active Link" module="VendorName_ModuleName" sortOrder="1" action="dimatask/controllerfolder/actionclassname"
              resource="VendorName_ModuleName::testsubmenu" parent="VendorName_ModuleName::testmenu"/>

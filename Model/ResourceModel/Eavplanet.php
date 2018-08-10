@@ -2,19 +2,25 @@
 namespace VendorName\ModuleName\Model\ResourceModel;
 
 use Magento\Eav\Model\Entity\AbstractEntity;
-use \Magento\Eav\Model\Entity\Context;
+use VendorName\ModuleName\Model\Eavplanet as PlanetEntity;
 
 class Eavplanet extends AbstractEntity
 {
-    /**
-     * @param Context $context
-     * @param array $data
-     * @return void
-     */
-    public function __construct(Context $context, $data = [])
+    protected function _construct()
     {
-        parent::__construct($context, $data);
-        $this->setType('a_planet');
-        $this->setConnection('a_planet', 'a_planet');
+        $this->_read = PlanetEntity::ENTITY . '_read';
+        $this->_write = PlanetEntity::ENTITY . '_write';
+    }
+
+    /**
+     * @return \Magento\Eav\Model\Entity\Type
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getEntityType()
+    {
+        if (empty($this->_type)) {
+            $this->setType(PlanetEntity::ENTITY);
+        }
+        return parent::getEntityType();
     }
 }

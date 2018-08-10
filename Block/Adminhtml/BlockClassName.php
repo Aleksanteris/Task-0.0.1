@@ -1,7 +1,7 @@
 <?php
 namespace VendorName\ModuleName\Block\Adminhtml;
 
-use \Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 
 class BlockClassName extends Template
 {

@@ -16,7 +16,7 @@
                 <item name="name" xsi:type="string">add</item>
                 <item name="label" xsi:type="string" translate="true">Sample Button</item>
                 <item name="class" xsi:type="string">primary</item>
-                <item name="url" xsi:type="url" path="*/*/new"/> <!-- Надо свой обработчик создавать как я понимаю?-->
+                <item name="url" xsi:type="url" path="*/*/new"/> <!-- 404 -->
             </item>
         </item>
     </argument>
@@ -27,7 +27,7 @@
     <!--===============================================================================================================================================-->
     <dataSource name="flattable_form_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">FlatTableGridAndFormDataProvider</argument> <!-- Можно ли использовать один DataProvider для Grid и Form ?-->
+            <argument name="class" xsi:type="string">FlatTableGridAndFormDataProvider</argument> <!--DataProvider-->
             <argument name="name" xsi:type="string">flattable_form_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">goods_id</argument>
             <argument name="requestFieldName" xsi:type="string">goods_id</argument>

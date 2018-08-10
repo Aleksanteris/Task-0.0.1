@@ -4,9 +4,23 @@ namespace VendorName\ModuleName\Setup;
 use Magento\Framework\Setup\InstallDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
+use VendorName\ModuleName\Setup\EavplanetSetupFactory;
 
 class InstallData implements InstallDataInterface
 {
+    /**
+     * @var \VendorName\ModuleName\Setup\EavplanetSetupFactory
+     */
+    private $eavplanetSetupFactory;
+
+    /**
+     * @param \VendorName\ModuleName\Setup\EavplanetSetupFactory $eavplanetSetupFactory
+     */
+    public function __construct(EavplanetSetupFactory $eavplanetSetupFactory)
+    {
+        $this->eavplanetSetupFactory = $eavplanetSetupFactory;
+    }
+
     /**
      * Installs data for a module
      *
@@ -16,6 +30,11 @@ class InstallData implements InstallDataInterface
      */
     public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
+        $setup->startSetup();
+
+        $eavplanetSetup = $this->eavplanetSetupFactory->create(['setup' => $setup]);
+        $eavplanetSetup->installEntities();
+
         $flatTableData = [
             ['name' => 'Play Station', 'price' => 200.55, 'count' => 10],
             ['name' => 'XBox', 'price' => 300.44, 'count' => 17],
@@ -28,58 +47,8 @@ class InstallData implements InstallDataInterface
             ['name' => 'Tetris', 'price' => 10.623, 'count' => 17],
             ['name' => 'Sega', 'price' => 70.623, 'count' => 84]
         ];
-        $eavEntityTypeData = [
-            ['entity_type_code' => 'planet'],
-            ['entity_type_code' => 'spaceship']
-        ];
-        $eavAttributeData = [
-            ['entity_type_id' => 1,'attribute_code' => 'name', 'backend_type' => 'text'],
-            ['entity_type_id' => 1,'attribute_code' => 'radius', 'backend_type' => 'decimal'],
-            ['entity_type_id' => 2,'attribute_code' => 'name', 'backend_type' => 'text'],
-            ['entity_type_id' => 2,'attribute_code' => 'cost', 'backend_type' => 'decimal']
-        ];
-        $planetEntityData = [
-            ['entity_type_id' => 1],
-            ['entity_type_id' => 1],
-            ['entity_type_id' => 1]
-        ];
-        $planetEntityTextData = [
-            ['entity_type_id' => 1,'entity_id' => 1, 'attribute_id' => 1, 'value' => 'Mars'],
-            ['entity_type_id' => 1,'entity_id' => 2, 'attribute_id' => 1, 'value' => 'Jupiter'],
-            ['entity_type_id' => 1,'entity_id' => 3, 'attribute_id' => 1, 'value' => 'Earth']
-
-        ];
-        $planetEntityDecimalData = [
-            ['entity_type_id' => 1,'entity_id' => 1, 'attribute_id' => 2, 'value' => 100.523],
-            ['entity_type_id' => 1,'entity_id' => 2, 'attribute_id' => 2, 'value' => 200.632],
-            ['entity_type_id' => 1,'entity_id' => 3, 'attribute_id' => 2, 'value' => 300.324]
-        ];
-        $spaceshipEntityData = [
-            ['entity_type_id' => 2],
-            ['entity_type_id' => 2],
-            ['entity_type_id' => 2]
-        ];
-        $spaceshipEntityTextData = [
-            ['entity_type_id' => 2,'entity_id' => 1, 'attribute_id' => 3, 'value' => 'Chalenger'],
-            ['entity_type_id' => 2,'entity_id' => 2, 'attribute_id' => 3, 'value' => 'Buran'],
-            ['entity_type_id' => 2,'entity_id' => 3, 'attribute_id' => 3, 'value' => 'X-38']
-
-        ];
-        $spaceshipEntityDecimalData = [
-            ['entity_type_id' => 2,'entity_id' => 1, 'attribute_id' => 4, 'value' => 700.562],
-            ['entity_type_id' => 2,'entity_id' => 2, 'attribute_id' => 4, 'value' => 800.346],
-            ['entity_type_id' => 2,'entity_id' => 3, 'attribute_id' => 4, 'value' => 900.326]
-        ];
 
         $setup->getConnection()->insertMultiple($setup->getTable('a_flat_table'), $flatTableData);
-        $setup->getConnection()->insertMultiple($setup->getTable('a_eav_entity_type'), $eavEntityTypeData);
-        $setup->getConnection()->insertMultiple($setup->getTable('a_eav_attribute'), $eavAttributeData);
-        $setup->getConnection()->insertMultiple($setup->getTable('a_planet_entity'), $planetEntityData);
-        $setup->getConnection()->insertMultiple($setup->getTable('a_planet_entity_text'), $planetEntityTextData);
-        $setup->getConnection()->insertMultiple($setup->getTable('a_planet_entity_decimal'), $planetEntityDecimalData);
-        $setup->getConnection()->insertMultiple($setup->getTable('a_spaceship_entity'), $spaceshipEntityData);
-        $setup->getConnection()->insertMultiple($setup->getTable('a_spaceship_entity_text'), $spaceshipEntityTextData);
-        $setup->getConnection()->insertMultiple($setup->getTable('a_spaceship_entity_decimal'), $spaceshipEntityDecimalData);
         $setup->endSetup();
     }
 }
