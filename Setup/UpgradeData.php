@@ -38,6 +38,7 @@ class UpgradeData implements UpgradeDataInterface
         $setup->startSetup();
 
         $eavplanet1 = $this->_eavPlanetFactory->create();
+//        $eavplanet1->setEntityTypeId($this->_eavplanetResource->getTypeId());
         $eavplanet1->setName('Mars');
         $eavplanet1->setOrdinalNumber(4);
         $eavplanet1->setNote('Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System after Mercury.');
@@ -45,6 +46,7 @@ class UpgradeData implements UpgradeDataInterface
         $this->_eavplanetResource->save($eavplanet1);
 
         $eavplanet2 = $this->_eavPlanetFactory->create();
+//        $eavplanet2->setEntityTypeId($this->_eavplanetResource->getTypeId());
         $eavplanet2->setName('Mercury');
         $eavplanet2->setOrdinalNumber(1);
         $eavplanet2->setNote('Mercury is the smallest and innermost planet in the Solar System. Its orbital period around the Sun of 87.97 days is the shortest of all the planets in the Solar System.');
@@ -52,6 +54,7 @@ class UpgradeData implements UpgradeDataInterface
         $this->_eavplanetResource->save($eavplanet2);
 
         $eavplanet3 = $this->_eavPlanetFactory->create();
+//        $eavplanet3->setEntityTypeId($this->_eavplanetResource->getTypeId());
         $eavplanet3->setName('Saturn');
         $eavplanet3->setOrdinalNumber(6);
         $eavplanet3->setNote('Saturn is the sixth planet from the Sun and the second-largest in the Solar System, after Jupiter. It is a gas giant with an average radius about nine times that of Earth.');

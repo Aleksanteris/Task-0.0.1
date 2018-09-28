@@ -2,57 +2,60 @@
 namespace VendorName\ModuleName\Model;
 
 use VendorName\ModuleName\Api\GameConsoleRepositoryInterface;
-use VendorName\ModuleName\Model\GameConsoleFactory;
 use VendorName\ModuleName\Model\ResourceModel\GameConsole as GameConsoleResource;
-use VendorName\ModuleName\Model\ResourceModel\GameConsole\Collection;
 use VendorName\ModuleName\Model\ResourceModel\GameConsole\CollectionFactory;
 use VendorName\ModuleName\Api\Data\GameConsoleSearchResultsInterfaceFactory;
-use VendorName\ModuleName\Api\Data\GameConsoleInterface;
-use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\Api\SortOrder;
-use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 
 class GameConsoleRepository implements GameConsoleRepositoryInterface
 {
     /**
      * @var \VendorName\ModuleName\Model\GameConsoleFactory;
      */
-    private $gameConsoleFactory;
+    protected $gameConsoleFactory;
 
     /**
      * @var \VendorName\ModuleName\Model\ResourceModel\GameConsole
      */
-    private $gameConsoleResource;
+    protected $gameConsoleResource;
 
     /**
      * @var \VendorName\ModuleName\Model\ResourceModel\GameConsole\CollectionFactory
      */
-    private $gameConsoleCollectionFactory;
+    protected $gameConsoleCollectionFactory;
 
     /**
      * @var \VendorName\ModuleName\Api\Data\GameConsoleSearchResultsInterfaceFactory
      */
-    private $gameConsoleSearchResultFactory;
+    protected $gameConsoleSearchResultFactory;
+
+    /**
+     * @var \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface
+     */
+    private $collectionProcessor;
 
     /**
      * @param \VendorName\ModuleName\Model\GameConsoleFactory $gameConsoleFactory
      * @param \VendorName\ModuleName\Model\ResourceModel\GameConsole $gameConsoleResource
      * @param \VendorName\ModuleName\Model\ResourceModel\GameConsole\CollectionFactory $gameConsoleCollectionFactory
      * @param \VendorName\ModuleName\Api\Data\GameConsoleSearchResultsInterfaceFactory $gameConsoleSearchResultFactory
+     * @param \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface $collectionProcessor
      */
     public function __construct(
         GameConsoleFactory $gameConsoleFactory,
         GameConsoleResource $gameConsoleResource,
         CollectionFactory $gameConsoleCollectionFactory,
-        GameConsoleSearchResultsInterfaceFactory $gameConsoleSearchResultFactory
+        GameConsoleSearchResultsInterfaceFactory $gameConsoleSearchResultFactory,
+        CollectionProcessorInterface $collectionProcessor
     ) {
         $this->gameConsoleFactory = $gameConsoleFactory;
         $this->gameConsoleResource = $gameConsoleResource;
         $this->gameConsoleCollectionFactory = $gameConsoleCollectionFactory;
         $this->gameConsoleSearchResultFactory = $gameConsoleSearchResultFactory;
+        $this->collectionProcessor = $collectionProcessor;
     }
 
     /**
@@ -60,7 +63,7 @@ class GameConsoleRepository implements GameConsoleRepositoryInterface
      * @return \VendorName\ModuleName\Api\Data\GameConsoleInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function save(GameConsoleInterface $gameConsole)
+    public function save(\VendorName\ModuleName\Api\Data\GameConsoleInterface $gameConsole)
     {
         try {
             $this->gameConsoleResource->save($gameConsole);
@@ -80,7 +83,7 @@ class GameConsoleRepository implements GameConsoleRepositoryInterface
         $goods = $this->gameConsoleFactory->create();
         $this->gameConsoleResource->load($goods, $goodsId);
         if (!$goods->getGoodsId()) {
-            throw new NoSuchEntityException(__('Game console with id "%1" does not exist.', $goodsId));
+            throw new NoSuchEntityException(__('Game console with id "%1" does not exist!', $goodsId));
         }
         return $goods;
     }
@@ -88,41 +91,19 @@ class GameConsoleRepository implements GameConsoleRepositoryInterface
     /**
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \VendorName\ModuleName\Api\Data\GameConsoleSearchResultsInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getList(SearchCriteriaInterface $searchCriteria)
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
     {
+        /** @var \VendorName\ModuleName\Model\ResourceModel\GameConsole\Collection $collection */
+        $collection = $this->gameConsoleCollectionFactory->create();
+
+        $this->collectionProcessor->process($searchCriteria, $collection);
+
+        /** @var \VendorName\ModuleName\Api\Data\GameConsoleSearchResultsInterface $searchResults */
         $searchResults = $this->gameConsoleSearchResultFactory->create();
         $searchResults->setSearchCriteria($searchCriteria);
-
-        /** @var \VendorName\ModuleName\Model\ResourceModel\GameConsole\Collection $collection */
-        $collection = $this->gameConsoleFactory->create()->getCollection();
-        // Add filters from root filter group to the collection
-        foreach ($searchCriteria->getFilterGroups() as $group) {
-            $this->addFilterGroupToCollection($group, $collection);
-        }
+        $searchResults->setItems($collection->getItems());
         $searchResults->setTotalCount($collection->getSize());
-        $sortOrders = $searchCriteria->getSortOrders();
-        if ($sortOrders) {
-            /** @var SortOrder $sortOrder */
-            foreach ($sortOrders as $sortOrder) {
-                $field = $sortOrder->getField();
-                $collection->addOrder(
-                    $field,
-                    ($sortOrder->getDirection() == SortOrder::SORT_ASC) ? 'ASC' : 'DESC'
-                );
-            }
-        }
-        $collection->setCurPage($searchCriteria->getCurrentPage());
-        $collection->setPageSize($searchCriteria->getPageSize());
-
-        $goods = [];
-        /** @var \VendorName\ModuleName\Api\Data\GameConsoleInterface $good */
-        foreach ($collection->getItems() as $good) {
-            $goods[] = $this->getById($good->getGoodsId());
-        }
-        $searchResults->setItems($goods);
-
         return $searchResults;
     }
 
@@ -131,7 +112,7 @@ class GameConsoleRepository implements GameConsoleRepositoryInterface
      * @return bool true on success
      * @throws \Magento\Framework\Exception\CouldNotDeleteException
      */
-    public function delete(GameConsoleInterface $gameConsole)
+    public function delete(\VendorName\ModuleName\Api\Data\GameConsoleInterface $gameConsole)
     {
         try {
             $this->gameConsoleResource->delete($gameConsole);
@@ -150,21 +131,5 @@ class GameConsoleRepository implements GameConsoleRepositoryInterface
     public function deleteById($goodsId)
     {
         return $this->delete($this->getById($goodsId));
-    }
-
-    /**
-     * Helper function that adds a FilterGroup to the collection.
-     *
-     * @param \Magento\Framework\Api\Search\FilterGroup $filterGroup
-     * @param \VendorName\ModuleName\Model\ResourceModel\GameConsole\Collection $collection
-     * @return void
-     * @throws \Magento\Framework\Exception\InputException
-     */
-    protected function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
-    {
-        foreach ($filterGroup->getFilters() as $filter) {
-            $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $collection->addFieldToFilter($filter->getField(), [$condition => $filter->getValue()]);
-        }
     }
 }

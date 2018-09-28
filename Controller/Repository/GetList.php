@@ -1,8 +1,8 @@
 <?php
-namespace VendorName\ModuleName\Controller\Adminhtml\ControllerFolder;
+namespace VendorName\ModuleName\Controller\Repository;
 
-use Magento\Backend\App\Action;
-use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use VendorName\ModuleName\Model\GameConsoleFactory;
 use VendorName\ModuleName\Model\ResourceModel\GameConsole\CollectionFactory;
@@ -17,7 +17,7 @@ use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\FilterGroupBuilder;
 
-class ShowFlatCollection extends Action
+class GetList extends Action
 {
     /**
      * @var PageFactory
@@ -103,7 +103,7 @@ class ShowFlatCollection extends Action
      */
     public function execute()
     {
-        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
+        /** @var \Magento\Framework\View\Result\Page $resultPage */
         $resultPage = $this->_resultPageFactory->create();
         $resultPage->getConfig()->getTitle()->prepend(__('ShowFlatCollection'));
 
@@ -111,10 +111,10 @@ class ShowFlatCollection extends Action
         $goods = $this->_gameConsoleFactory->create();
 
         //it work
-/*      $goods->setName('Test');
-        $goods->setPrice(111.44);
-        $goods->setCount(12);
-        $this->_gameConsoleResource->save($goods);*/
+        /*      $goods->setName('Test');
+                $goods->setPrice(111.44);
+                $goods->setCount(12);
+                $this->_gameConsoleResource->save($goods);*/
 
 
         $collection = $this->_collectionFactory->create();
@@ -125,6 +125,7 @@ class ShowFlatCollection extends Action
 //        var_dump($collection->toArray());
 
 
+
         /** @var \VendorName\ModuleName\Model\GameConsole $goods1 */
 //        $goods1 = $this->_gameConsoleFactory->create();
 
@@ -132,49 +133,15 @@ class ShowFlatCollection extends Action
 //        $this->_gameConsoleResource->load($goods1, 10);
 
 
-   /*     $this->_gameConsoleResource->delete($goods1);*/
+        /*     $this->_gameConsoleResource->delete($goods1);*/
 
 
-        var_dump($this->_repository->getById(2)->toArray());
-
-
-        //Get List
-
-        /** @var \Magento\Framework\Api\Filter filter1 */
-/*        $filter = $this->_filter->create();
-        $filter->setField('name');
-        $filter->setValue('Play Station');
-        $filter->setConditionType('like');
-
-        $filter2 = $this->_filter->create();
-        $filter2->setField('goods_id');
-        $filter2->setValue(5);
-        $filter2->setConditionType('like');
-
-
-        $filter3 = $this->_filter->create();
-        $filter3->setField('name');
-        $filter3->setValue('Play Station 2');
-        $filter3->setConditionType('like');
+        var_dump($this->_repository->getById(8)->toArray());
 
 
 
-        $filter_group = $this->_filterGroup->create();
-        $filter_group->setFilters([$filter,$filter2 ]);
 
-        $filter_group2 = $this->_filterGroup->create();
-        $filter_group2->setFilters([$filter3]);
-
-
-        $search_criteria = $this->_searchCriteria->create();
-        $search_criteria->setFilterGroups([$filter_group, $filter_group2]);
-
-
-        $res = $this->_repository->getList($search_criteria);
-        var_dump($res->getItems());__toArray*/
-
-
-        $filter = $this->_filterBuilder
+/*        $filter = $this->_filterBuilder
             ->setField('name')
             ->setValue('Play Station')
             ->setConditionType('like')
@@ -205,7 +172,7 @@ class ShowFlatCollection extends Action
             ->setFilterGroups([$filter_group, $filter_group2]);
 
         $res = $res = $this->_repository->getList($search_criteria);
-        var_dump($res->getItems());
+        var_dump($res->getItems());*/
 
 
 

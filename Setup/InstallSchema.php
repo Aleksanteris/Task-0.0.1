@@ -85,13 +85,13 @@ class InstallSchema implements InstallSchemaInterface
                 ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
                 'entity_id'
             )
-            ->addColumn(
+/*            ->addColumn(
                 'entity_type_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
                 null,
                 ['unsigned' => true, 'nullable' => false, 'default' => '0'],
                 'entity_type_id'
-            )
+            )*/
             ->addColumn(
                 'name',
                 \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -106,7 +106,7 @@ class InstallSchema implements InstallSchemaInterface
                 ['unsigned' => true, 'nullable' => false],
                 'Ordinal_number'
             )
-            ->addForeignKey(
+/*            ->addForeignKey(
                 $installer->getFkName(
                     PlanetEntity::ENTITY . '_entity',
                     'entity_type_id',
@@ -117,7 +117,7 @@ class InstallSchema implements InstallSchemaInterface
                 $installer->getTable('eav_entity_type'),
                 'entity_type_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-            )
+            )*/
             ->setComment('planet_entity');
         $installer->getConnection()->createTable($table);
 
@@ -133,13 +133,13 @@ class InstallSchema implements InstallSchemaInterface
                 ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
                 'value_id'
             )
-            ->addColumn(
+/*            ->addColumn(
                 'entity_type_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
                 null,
                 ['unsigned' => true, 'nullable' => false, 'default' => '0'],
                 'entity_type_id'
-            )
+            )*/
             ->addColumn(
                 'entity_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -161,7 +161,7 @@ class InstallSchema implements InstallSchemaInterface
                 [],
                 'value'
             )
-            ->addForeignKey(
+/*            ->addForeignKey(
                 $installer->getFkName(
                     PlanetEntity::ENTITY . '_entity_text',
                     'entity_type_id',
@@ -172,7 +172,7 @@ class InstallSchema implements InstallSchemaInterface
                 $installer->getTable('eav_entity_type'),
                 'entity_type_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-            )
+            )*/
             ->addForeignKey(
                 $installer->getFkName(
                     PlanetEntity::ENTITY . '_entity_text',
@@ -212,13 +212,13 @@ class InstallSchema implements InstallSchemaInterface
                 ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
                 'value_id'
             )
-            ->addColumn(
+/*            ->addColumn(
                 'entity_type_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
                 null,
                 ['unsigned' => true, 'nullable' => false, 'default' => '0'],
                 'entity_type_id'
-            )
+            )*/
             ->addColumn(
                 'entity_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -240,7 +240,7 @@ class InstallSchema implements InstallSchemaInterface
                 [],
                 'value'
             )
-            ->addForeignKey(
+/*            ->addForeignKey(
                 $installer->getFkName(
                     PlanetEntity::ENTITY . '_entity_decimal',
                     'entity_type_id',
@@ -251,7 +251,7 @@ class InstallSchema implements InstallSchemaInterface
                 $installer->getTable('eav_entity_type'),
                 'entity_type_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-            )
+            )*/
             ->addForeignKey(
                 $installer->getFkName(
                     PlanetEntity::ENTITY . '_entity_decimal',

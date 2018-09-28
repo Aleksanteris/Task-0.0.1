@@ -1,6 +1,36 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- API -->
+    <preference for="VendorName\ModuleName\Api\Data\GameConsoleSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="VendorName\ModuleName\Api\Data\GameConsoleInterface" type="VendorName\ModuleName\Model\GameConsole" />
+    <preference for="VendorName\ModuleName\Api\GameConsoleRepositoryInterface" type="VendorName\ModuleName\Model\GameConsoleRepository" />
+
+
+    <virtualType name="VendorName\ModuleName\Model\Api\SearchCriteria\GameConsoleCollectionProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="filters" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\FilterProcessor</item>
+                <item name="sorting" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\SortingProcessor</item>
+                <item name="pagination" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\PaginationProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="VendorName\ModuleName\Model\GameConsoleRepository">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">VendorName\ModuleName\Model\Api\SearchCriteria\GameConsoleCollectionProcessor</argument>
+        </arguments>
+    </type>
+
+    <type name="VendorName\ModuleName\Controller\Adminhtml\ControllerFolder\ShowFlatCollection">
+        <arguments>
+            <argument name="repository" xsi:type="object">VendorName\ModuleName\Model\GameConsoleRepository</argument>
+            <argument name="searchCriteria" xsi:type="object">Magento\Framework\Api\SearchCriteriaInterface</argument>
+            <argument name="filterBuilder" xsi:type="object">Magento\Framework\Api\FilterBuilder</argument>
+            <argument name="filterGroupBuilder" xsi:type="object">Magento\Framework\Api\Search\FilterGroupBuilder</argument>
+        </arguments>
+    </type>
 
     <!-- Create our type FlatTableGridAndFormDataProvider -->
     <virtualType name="FlatTableGridAndFormDataProvider"
@@ -65,7 +95,5 @@
         </arguments>
     </virtualType>
 
-    <preference for="VendorName\ModuleName\Api\Data\GameConsoleInterface" type="VendorName\ModuleName\Model\GameConsole" />
-    <preference for="VendorName\ModuleName\Api\GameConsoleRepositoryInterface" type="VendorName\ModuleName\Model\GameConsoleRepository" />
-    <preference for="VendorName\ModuleName\Api\Data\GameConsoleSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+
 </config>
